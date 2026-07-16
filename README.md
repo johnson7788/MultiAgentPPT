@@ -229,6 +229,9 @@ docker compose up
 前端项目部分基于开源仓库：[allweonedev/presentation-ai](https://github.com/allweonedev/presentation-ai)
 
 
+## 如果有疑问请联系我
+![weichat.png](docs/weichat.png)
+
 # Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=johnson7788/MultiAgentPPT&type=Date)](https://www.star-history.com/#johnson7788/MultiAgentPPT&Date)
