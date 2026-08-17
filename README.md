@@ -234,4 +234,4 @@ docker compose up
 
 # Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=johnson7788/MultiAgentPPT&type=Date)](https://www.star-history.com/#johnson7788/MultiAgentPPT&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=johnson7788/MultiAgentPPT&type=Date)](https://star-history.dera.page/#johnson7788/MultiAgentPPT&Date)
