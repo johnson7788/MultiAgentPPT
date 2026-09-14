@@ -23,8 +23,9 @@ export const useSlideChangeWatcher = (
 
   // Watch for changes to the slides array and trigger save
   useEffect(() => {
-    // Only save if we have slides and we're not generating
-    if (slides.length > 0) {
+    // Skip while generating so a partial in-memory parse cannot overwrite
+    // the completed PPT that generatePresentationStream just persisted.
+    if (slides.length > 0 && !isGeneratingPresentation) {
       save();
     }
   }, [slides, save, isGeneratingPresentation]);

@@ -34,10 +34,17 @@ export const useDebouncedSave = (options: UseDebouncedSaveOptions = {}) => {
           imageModel,
           presentationStyle,
           language,
+          isGeneratingPresentation,
         } = usePresentationState.getState();
 
         // Don't save if we're generating content or if there's no presentation
-        if (!currentPresentationId || slides.length === 0) return;
+        if (
+          !currentPresentationId ||
+          slides.length === 0 ||
+          isGeneratingPresentation
+        ) {
+          return;
+        }
         try {
           setSavingStatus("saving");
 
@@ -90,10 +97,17 @@ export const useDebouncedSave = (options: UseDebouncedSaveOptions = {}) => {
       imageModel,
       presentationStyle,
       language,
+      isGeneratingPresentation,
     } = usePresentationState.getState();
 
-    // Don't save if there's no presentation
-    if (!currentPresentationId || slides.length === 0) return;
+    // Don't save if there's no presentation, or if a generation is still in flight
+    if (
+      !currentPresentationId ||
+      slides.length === 0 ||
+      isGeneratingPresentation
+    ) {
+      return;
+    }
 
     try {
       setSavingStatus("saving");
