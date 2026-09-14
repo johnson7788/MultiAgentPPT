@@ -269,12 +269,21 @@ export function PresentationGenerationManager() {
   
       parser.finalize();
       parser.clearAllGeneratingMarks();
-  
+
       const slides = parser.getAllSlides();
       console.log("slides 内容：", slides);
-      slidesBufferRef.current = slides;
-      slidesRafIdRef.current = requestAnimationFrame(updateSlidesWithRAF);
-  
+
+      // Drop any in-flight RAF so a stale parse cannot overwrite the final slides.
+      if (slidesRafIdRef.current !== null) {
+        cancelAnimationFrame(slidesRafIdRef.current);
+        slidesRafIdRef.current = null;
+      }
+      slidesBufferRef.current = null;
+      // Apply the completed slides synchronously. Scheduling RAF and then
+      // cancelling it left Zustand on a partial parse; autosave then wrote that
+      // partial PPT back over the full copy in the database.
+      setSlides(slides);
+
       const { currentPresentationId, currentPresentationTitle, theme, language } = usePresentationState.getState();
       if (currentPresentationId) {
         void updatePresentation({
@@ -285,13 +294,9 @@ export function PresentationGenerationManager() {
           language,
         });
       }
-  
+
       setIsGeneratingPresentation(false);
       setShouldStartPresentationGeneration(false);
-      if (slidesRafIdRef.current !== null) {
-        cancelAnimationFrame(slidesRafIdRef.current);
-        slidesRafIdRef.current = null;
-      }
     } catch (error: any) {
       toast.error("Failed to generate presentation: " + error.message);
       resetGeneration();
